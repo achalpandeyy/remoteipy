@@ -8,4 +8,9 @@ d = { 'settings': { 'branch': 'main',
   'syms': { 'remoteipy.core': { 'remoteipy.core.Client': ('core.html#client', 'remoteipy/core.py'),
                                 'remoteipy.core.connect': ('core.html#connect', 'remoteipy/core.py'),
                                 'remoteipy.core.disconnect': ('core.html#disconnect', 'remoteipy/core.py'),
-                                'remoteipy.core.run_remote_blocking': ('core.html#run_remote_blocking', 'remoteipy/core.py')}}}
+                                'remoteipy.core.run_remote_blocking': ('core.html#run_remote_blocking', 'remoteipy/core.py')},
+            'remoteipy.remoteipy': { 'remoteipy.remoteipy.Client': ('remoteipy.html#client', 'remoteipy/remoteipy.py'),
+                                     'remoteipy.remoteipy.connect': ('remoteipy.html#connect', 'remoteipy/remoteipy.py'),
+                                     'remoteipy.remoteipy.disconnect': ('remoteipy.html#disconnect', 'remoteipy/remoteipy.py'),
+                                     'remoteipy.remoteipy.run_remote_blocking': ( 'remoteipy.html#run_remote_blocking',
+                                                                                  'remoteipy/remoteipy.py')}}}
