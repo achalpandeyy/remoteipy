@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "remoteipy"
+  site-url: "https://achalpandeyy.github.io/remoteipy"
+  description: "remote python execution for SolveIt"
+  repo-branch: main
+  repo-url: "https://github.com/achalpandeyy/remoteipy"
