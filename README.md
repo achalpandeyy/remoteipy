@@ -6,91 +6,146 @@
 If you are not using SolveIt then this is probably not as relevant to
 you.
 
-## Usage
+# Usage
+
+## Connecting
 
 ``` python
-from remoteipy import connect, disconnect
+from remoteipy import connect, is_connected, disconnect
 ```
 
-    ModuleNotFoundError: No module named 'remoteipy'
-    [31m---------------------------------------------------------------------------[39m
-    [31mModuleNotFoundError[39m                       Traceback (most recent call last)
-    [36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
-    [32m----> [39m[32m1[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mremoteipy[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m connect, disconnect
-
-    [31mModuleNotFoundError[39m: No module named 'remoteipy'
-
 ``` python
-# ssh -p 13027 root@ssh7.vast.ai -L 8080:localhost:8080
-client = connect(user="root", host="ssh7.vast.ai", port=13027)
+client = connect("ssh -p 16067 root@ssh3.vast.ai -L 8080:localhost:8080", py="/venv/main/bin/python")
 ```
 
-    Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
-    Have fun!
-    bind [127.0.0.1]:50004: Address already in use
-
-    Connected to IPython kernel at root@ssh7.vast.ai:13027
-
-``` python
-print("Hello")
+``` bash
+> Connected to IPython kernel at root@ssh3.vast.ai:16067
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
 ```
 
-    Hello
+``` python
+is_connected(client)
+```
+
+    > True
+
+## Running code
 
 ``` python
+%%remote
+
 import sys
 print(sys.version)
 ```
 
-    3.10.12 (main, Feb  4 2025, 14:57:36) [GCC 11.4.0]
+``` bash
+> 3.10.12 (main, Feb  4 2025, 14:57:36) [GCC 11.4.0]
+```
 
 ``` python
+%%remote
+
 !nvidia-smi
 ```
 
-    Tue Dec  9 07:07:30 2025       
-    +-----------------------------------------------------------------------------------------+
-    | NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
-    |-----------------------------------------+------------------------+----------------------+
-    | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-    | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-    |                                         |                        |               MIG M. |
-    |=========================================+========================+======================|
-    |   0  NVIDIA H100 80GB HBM3          On  |   00000000:86:00.0 Off |                  Off |
-    | N/A   31C    P0             73W /  700W |       0MiB /  81559MiB |      0%      Default |
-    |                                         |                        |             Disabled |
-    +-----------------------------------------+------------------------+----------------------+
-                                                                                             
-    +-----------------------------------------------------------------------------------------+
-    | Processes:                                                                              |
-    |  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
-    |        ID   ID                                                               Usage      |
-    |=========================================================================================|
-    |  No running processes found                                                             |
-    +-----------------------------------------------------------------------------------------+
+``` bash
+> Wed Dec 10 10:05:54 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.172.08             Driver Version: 570.172.08     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:05:00.0 Off |                  Off |
+| N/A   29C    P0             76W /  700W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+```
 
-What GPU am I running? Is it a gaming one?
+## Asking SolveIt
 
-##### 🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c -->
+What GPU am I running? Would you call me GPU-rich or GPU-poor ;)?
 
-🧠🧠🧠🧠🧠🧠🧠🧠🧠
+> You’re running an NVIDIA H100 80GB HBM3 — that’s the flagship
+> datacenter GPU from NVIDIA’s Hopper generation!
+>
+> I’d definitely call you GPU-rich 🤑 — that’s one of the most powerful
+> GPUs available for AI/ML workloads. The H100 80GB is what the big labs
+> use for training large models. You’ve got:
+>
+> - 80GB of ultra-fast HBM3 memory
+> - Up to 700W of compute power at your fingertips
+> - CUDA 12.8 support
+>
+> You’re sitting pretty! What are you planning to run on this beast?
 
-You’re running an **NVIDIA H100 80GB HBM3** — definitely not a gaming
-card!
+## Running more code
 
-The H100 is NVIDIA’s flagship data center GPU designed for AI training
-and high-performance computing. It’s got 80GB of HBM3 (High Bandwidth
-Memory), which is much faster than the GDDR memory found in gaming GPUs.
-This is serious hardware for deep learning workloads.
+``` python
+%%remote
 
-Are you planning to train some models on it, or just exploring what you
-can do with the remote kernel setup you’ve built?
+import torch
+
+A = torch.ones(4096, 4096, dtype=torch.float32, device="cuda")
+A
+```
+
+    > tensor([[1., 1., 1.,  ..., 1., 1., 1.],
+            [1., 1., 1.,  ..., 1., 1., 1.],
+            [1., 1., 1.,  ..., 1., 1., 1.],
+            ...,
+            [1., 1., 1.,  ..., 1., 1., 1.],
+            [1., 1., 1.,  ..., 1., 1., 1.],
+            [1., 1., 1.,  ..., 1., 1., 1.]], device='cuda:0')
+
+What did I just do?
+
+> You just created a 4096×4096 matrix filled with ones on your GPU (the
+> H100)!
+>
+> Specifically: - torch.ones() creates a tensor (PyTorch’s version of an
+> array) filled with 1s - dtype=torch.float32 means each element is a
+> 32-bit floating point number - device=“cuda” puts it on your GPU
+> memory instead of CPU RAM This tensor is taking up about 64 MB of your
+> GPU’s 80GB memory (4096 × 4096 × 4 bytes per float32).
+>
+> Are you planning to do some matrix operations or neural network work
+> with this?You just created a 4096×4096 matrix filled with ones on your
+> GPU! Specifically, you:
+>
+> Created a PyTorch tensor with 32-bit floating point values Allocated
+> it directly on the CUDA device (your H100 GPU) The tensor contains
+> about 16.8 million elements (all set to 1.0) This takes up about 64 MB
+> of your GPU’s 80 GB memory. Are you planning to do some matrix
+> operations or neural network work with it?
+
+## Disconnecting
 
 ``` python
 disconnect(client)
 ```
 
-    Exit request sent.
+``` bash
+> Exit requrest sent.
+```
+
+``` python
+is_connected(client)
+```
+
+``` bash
+> False
+```
 
 ### Installation
 
@@ -100,14 +155,6 @@ Install latest from the GitHub
 ``` sh
 $ pip install git+https://github.com/achalpandeyy/remoteipy.git
 ```
-
-or from [conda](https://anaconda.org/achalpandeyy/remoteipy)
-
-``` sh
-$ conda install -c achalpandeyy remoteipy
-```
-
-or from [pypi](https://pypi.org/project/remoteipy/)
 
 ``` sh
 $ pip install remoteipy
@@ -119,5 +166,4 @@ Documentation can be found hosted on this GitHub
 [repository](https://github.com/achalpandeyy/remoteipy)’s
 [pages](https://achalpandeyy.github.io/remoteipy/). Additionally you can
 find package manager specific guidelines on
-[conda](https://anaconda.org/achalpandeyy/remoteipy) and
-[pypi](https://pypi.org/project/remoteipy/) respectively.
+[pypi](https://pypi.org/project/remoteipy/).
