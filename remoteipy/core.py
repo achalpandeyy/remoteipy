@@ -127,7 +127,7 @@ def remote_python(code:str, user:str, host:str, port:int, py:str = "python3") ->
     return result.stdout
 
 # %% ../nbs/core.ipynb 11
-def connect(ssh_cmd:str, py:str = "python3") -> Client:
+def connect(ssh_cmd:str, py:str = "python3"):
     """
     Starts an IPython kernel on a remote machine using ssh and connect to it,
     to send commands. Also registers a cell magic %%remote.
