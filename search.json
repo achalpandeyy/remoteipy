@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "remoteipy",
+    "section": "",
+    "text": "If you are not using SolveIt then this is probably not as relevant to you.",
+    "crumbs": [
+      "remoteipy"
+    ]
+  },
+  {
+    "objectID": "index.html#connecting",
+    "href": "index.html#connecting",
+    "title": "remoteipy",
+    "section": "Connecting",
+    "text": "Connecting\nfrom remoteipy import connect, is_connected, disconnect\nclient = connect(\"ssh -p 16067 root@ssh3.vast.ai -L 8080:localhost:8080\", py=\"/venv/main/bin/python\")\n&gt; Connected to IPython kernel at root@ssh3.vast.ai:16067\nWelcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.\nHave fun!\nis_connected(client)\n&gt; True",
+    "crumbs": [
+      "remoteipy"
+    ]
+  },
+  {
+    "objectID": "index.html#running-code",
+    "href": "index.html#running-code",
+    "title": "remoteipy",
+    "section": "Running code",
+    "text": "Running code\n%%remote\n\nimport sys\nprint(sys.version)\n&gt; 3.10.12 (main, Feb  4 2025, 14:57:36) [GCC 11.4.0]\n%%remote\n\n!nvidia-smi\n&gt; Wed Dec 10 10:05:54 2025       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 570.172.08             Driver Version: 570.172.08     CUDA Version: 12.8     |\n|-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA H100 80GB HBM3          On  |   00000000:05:00.0 Off |                  Off |\n| N/A   29C    P0             76W /  700W |       0MiB /  81559MiB |      0%      Default |\n|                                         |                        |             Disabled |\n+-----------------------------------------+------------------------+----------------------+\n                                                                                         \n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+",
+    "crumbs": [
+      "remoteipy"
+    ]
+  },
+  {
+    "objectID": "index.html#asking-solveit",
+    "href": "index.html#asking-solveit",
+    "title": "remoteipy",
+    "section": "Asking SolveIt",
+    "text": "Asking SolveIt\nWhat GPU am I running? Would you call me GPU-rich or GPU-poor ;)?\n\nYou’re running an NVIDIA H100 80GB HBM3 — that’s the flagship datacenter GPU from NVIDIA’s Hopper generation!\nI’d definitely call you GPU-rich 🤑 — that’s one of the most powerful GPUs available for AI/ML workloads. The H100 80GB is what the big labs use for training large models. You’ve got:\n\n80GB of ultra-fast HBM3 memory\nUp to 700W of compute power at your fingertips\nCUDA 12.8 support\n\nYou’re sitting pretty! What are you planning to run on this beast?",
+    "crumbs": [
+      "remoteipy"
+    ]
+  },
+  {
+    "objectID": "index.html#running-more-code",
+    "href": "index.html#running-more-code",
+    "title": "remoteipy",
+    "section": "Running more code",
+    "text": "Running more code\n%%remote\n\nimport torch\n\nA = torch.ones(4096, 4096, dtype=torch.float32, device=\"cuda\")\nA\n&gt; tensor([[1., 1., 1.,  ..., 1., 1., 1.],\n        [1., 1., 1.,  ..., 1., 1., 1.],\n        [1., 1., 1.,  ..., 1., 1., 1.],\n        ...,\n        [1., 1., 1.,  ..., 1., 1., 1.],\n        [1., 1., 1.,  ..., 1., 1., 1.],\n        [1., 1., 1.,  ..., 1., 1., 1.]], device='cuda:0')\nWhat did I just do?\n\nYou just created a 4096×4096 matrix filled with ones on your GPU (the H100)!\nSpecifically: - torch.ones() creates a tensor (PyTorch’s version of an array) filled with 1s - dtype=torch.float32 means each element is a 32-bit floating point number - device=“cuda” puts it on your GPU memory instead of CPU RAM This tensor is taking up about 64 MB of your GPU’s 80GB memory (4096 × 4096 × 4 bytes per float32).\nAre you planning to do some matrix operations or neural network work with this?You just created a 4096×4096 matrix filled with ones on your GPU! Specifically, you:\nCreated a PyTorch tensor with 32-bit floating point values Allocated it directly on the CUDA device (your H100 GPU) The tensor contains about 16.8 million elements (all set to 1.0) This takes up about 64 MB of your GPU’s 80 GB memory. Are you planning to do some matrix operations or neural network work with it?",
+    "crumbs": [
+      "remoteipy"
+    ]
+  },
+  {
+    "objectID": "index.html#disconnecting",
+    "href": "index.html#disconnecting",
+    "title": "remoteipy",
+    "section": "Disconnecting",
+    "text": "Disconnecting\ndisconnect(client)\n&gt; Exit requrest sent.\nis_connected(client)\n&gt; False\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/achalpandeyy/remoteipy.git\n$ pip install remoteipy\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on pypi.",
+    "crumbs": [
+      "remoteipy"
+    ]
+  },
+  {
+    "objectID": "core.html",
+    "href": "core.html",
+    "title": "core",
+    "section": "",
+    "text": "source\n\nClient\n\n Client (user:str, host:str, port:int,\n         kernel:jupyter_client.blocking.client.BlockingKernelClient,\n         py:str)\n\nRepresents a connection to a remote machine.\n\nsource\n\n\nconnect\n\n connect (ssh_cmd:str, py:str='python3')\n\n*Starts an IPython kernel on a remote machine using ssh and connect to it, to send commands. Also registers a cell magic %%remote. Use the python interpreter path to use virtual environment on the remote machine.\nssh_cmd: ssh command to connect to the remote machine. py: path to the python interpreter.*\n\nsource\n\n\nis_connected\n\n is_connected (client)\n\nCheck if the client is currently connected. A client is considered connected if both of the following are true: 1. The port forwarding ssh control socket is alive. 2. I/O channels to the IPython kernel are alive.\n\nsource\n\n\nrun_remote_blocking\n\n run_remote_blocking (client:__main__.Client, code:str)\n\nRun code on the remote machine associated with this client. Use the cell magic instead of directly calling this function.\n\nsource\n\n\ndisconnect\n\n disconnect (client:__main__.Client)\n\nDisconnect the client.",
+    "crumbs": [
+      "core"
+    ]
+  }
+]
